@@ -1,0 +1,90 @@
+# Example Configuration for Observational Memory Plugin
+
+# This is an example OpenClaw configuration file showing how to configure
+# the Observational Memory Plugin. Save this as part of your openclaw.json.
+
+{
+  "plugins": {
+    "enabled": true,
+    "entries": {
+      "observational-memory": {
+        "enabled": true,
+        "config": {
+          # Path to the observational memory workspace
+          # This is where SYSTEM/, OBSERVATIONS/, REFLECTIONS/, and RAW_MEMORY/ 
+          # directories will be created
+          "workspace": "~/.openclaw/workspaces/observational-memory",
+          
+          # Observer Agent Configuration
+          # The Observer runs daily to compress yesterday's notes into the observation log
+          "observer": {
+            # Enable daily automatic compression
+            "enabled": true,
+            
+            # Cron schedule (default: 2:00 AM daily)
+            # Format: minute hour day month weekday
+            "schedule": "0 2 * * *",
+            
+            # Model to use for compression (cheaper is fine for this task)
+            "model": "openrouter/anthropic/claude-haiku",
+            
+            # Target compression ratio (0.2 = 20% of original size)
+            # Range: 0.1 (high compression) to 0.5 (light compression)
+            "compressionTarget": 0.2
+          },
+          
+          # Reflector Agent Configuration
+          # The Reflector runs weekly to extract patterns and lessons
+          "reflector": {
+            # Enable weekly pattern extraction
+            "enabled": true,
+            
+            # Cron schedule (default: 3:00 AM Sundays)
+            "schedule": "0 3 * * 0",
+            
+            # Model to use for pattern extraction (needs more capability)
+            "model": "openrouter/anthropic/claude-sonnet-4-5",
+            
+            # Enable pattern detection from observations
+            "extractPatterns": true
+          },
+          
+          # Tier Configuration
+          # Control the size and retention of each memory tier
+          "tiers": {
+            # Recent Context Tier
+            # Raw conversation turns kept in current session
+            "recent": {
+              # Maximum conversation turns to keep verbatim
+              "maxTurns": 20,
+              
+              # Maximum size for recent context
+              "maxSize": "8kb"
+            },
+            
+            # Observation Log Tier
+            # Compressed daily summaries
+            "observations": {
+              # Maximum total size for observation log
+              "maxSize": "4kb",
+              
+              # How many days to keep observations
+              # Older observations are automatically cleaned up
+              "retentionDays": 30
+            },
+            
+            # Reflections Tier
+            # Extracted patterns and insights
+            "reflections": {
+              # Maximum number of user behavior patterns to track
+              "maxPatterns": 50,
+              
+              # Maximum number of lessons learned to keep
+              "maxLessons": 20
+            }
+          }
+        }
+      }
+    }
+  }
+}

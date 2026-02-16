@@ -1,0 +1,73 @@
+{
+  "id": "observational-memory",
+  "name": "Observational Memory",
+  "version": "1.0.0",
+  "description": "Three-tier observational memory system for 70-90% token cost reduction",
+  "author": "Novis (Matthew Savage)",
+  "kind": "memory",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "workspace": {
+        "type": "string",
+        "description": "Path to observational memory workspace",
+        "default": "~/.openclaw/workspaces/observational-memory"
+      },
+      "observer": {
+        "type": "object",
+        "properties": {
+          "enabled": { "type": "boolean", "default": true },
+          "schedule": { "type": "string", "default": "0 2 * * *" },
+          "model": { "type": "string", "default": "openrouter/anthropic/claude-haiku" },
+          "compressionTarget": { "type": "number", "default": 0.2, "minimum": 0.1, "maximum": 0.5 }
+        }
+      },
+      "reflector": {
+        "type": "object",
+        "properties": {
+          "enabled": { "type": "boolean", "default": true },
+          "schedule": { "type": "string", "default": "0 3 * * 0" },
+          "model": { "type": "string", "default": "openrouter/anthropic/claude-sonnet-4-5" },
+          "extractPatterns": { "type": "boolean", "default": true }
+        }
+      },
+      "tiers": {
+        "type": "object",
+        "properties": {
+          "recent": {
+            "type": "object",
+            "properties": {
+              "maxTurns": { "type": "number", "default": 20 },
+              "maxSize": { "type": "string", "default": "8kb" }
+            }
+          },
+          "observations": {
+            "type": "object",
+            "properties": {
+              "maxSize": { "type": "string", "default": "4kb" },
+              "retentionDays": { "type": "number", "default": 30 }
+            }
+          },
+          "reflections": {
+            "type": "object",
+            "properties": {
+              "maxPatterns": { "type": "number", "default": 50 },
+              "maxLessons": { "type": "number", "default": 20 }
+            }
+          }
+        }
+      }
+    }
+  },
+  "uiHints": {
+    "workspace": { "label": "Workspace Path", "placeholder": "~/.openclaw/workspaces/observational-memory" },
+    "observer.enabled": { "label": "Enable Daily Observer" },
+    "observer.schedule": { "label": "Observer Schedule (Cron)", "placeholder": "0 2 * * *" },
+    "observer.model": { "label": "Observer Model", "placeholder": "openrouter/anthropic/claude-haiku" },
+    "observer.compressionTarget": { "label": "Compression Target (0.1-0.5)" },
+    "reflector.enabled": { "label": "Enable Weekly Reflector" },
+    "reflector.schedule": { "label": "Reflector Schedule (Cron)", "placeholder": "0 3 * * 0" },
+    "reflector.model": { "label": "Reflector Model", "placeholder": "openrouter/anthropic/claude-sonnet-4-5" }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "name": "@openclaw/observational-memory",
+  "version": "1.0.0",
+  "description": "Observational memory plugin for OpenClaw - 70-90% token cost reduction through intelligent context compression",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "openclaw": {
+    "extensions": ["./dist/index.js"],
+    "skills": ["./skills/observational-memory"]
+  },
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "memory",
+    "observational-memory",
+    "context-compression",
+    "ai-agents"
+  ],
+  "author": "Novis (Matthew Savage)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclaw/observational-memory-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/openclaw/observational-memory-plugin/issues"
+  },
+  "homepage": "https://github.com/openclaw/observational-memory-plugin#readme",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.2.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
